@@ -1,0 +1,14 @@
+target_table: tgt_customers
+
+sources:
+  - name: Customer
+    table: src_customers
+
+fields:
+  - target: customer_id
+    target_type: INT
+    source: Customer.customer_id
+
+  - target: email
+    target_type: VARCHAR(255)
+    source: Customer.email

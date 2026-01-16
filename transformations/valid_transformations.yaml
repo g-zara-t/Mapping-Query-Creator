@@ -1,0 +1,12 @@
+# List of valid transformations pls keep format
+- name: concat
+  description: "Concatenate multiple fields with a separator"
+  parameters:
+    separator: "Default is space"
+- name: multiply
+  description: "Multiply numeric field by a factor"
+  parameters:
+    factor: "Default is 1"
+- name: uppercase
+  description: "Convert text to uppercase"
+  parameters: {}

@@ -1,0 +1,89 @@
+# ============================================================
+# Mapping Template
+# ============================================================
+# This file defines how source data is mapped and transformed
+# into a target table.
+#
+# Rules:
+# - This file is the single source of truth
+# - SQL is generated from this mapping
+# - Any change must be reviewed and approved
+# ============================================================
+
+# ------------------------------------------------------------
+# Target table definition
+# ------------------------------------------------------------
+target_table: tgt_example_table
+
+# ------------------------------------------------------------
+# Source tables
+# Logical names are used throughout the mapping
+# ------------------------------------------------------------
+sources:
+  - name: SourceA          # Logical name
+    table: src_table_a     # Physical table name
+
+  - name: SourceB
+    table: src_table_b
+
+# ------------------------------------------------------------
+# Join definitions (optional)
+# ------------------------------------------------------------
+# If multiple sources are defined, joins should be specified.
+# The "left" and "right" values refer to source "name" values.
+# ------------------------------------------------------------
+joins:
+  - type: inner            # inner | left | right | full
+    left: SourceA
+    right: SourceB
+    condition:
+      left_field: id
+      right_field: source_a_id
+
+# ------------------------------------------------------------
+# Field mappings
+# ------------------------------------------------------------
+# Each field defines:
+# - target column name
+# - target data type
+# - source field(s)
+# - optional transformation
+# ------------------------------------------------------------
+fields:
+  # ----------------------------------------------------------
+  # Direct field mapping (no transformation)
+  # ----------------------------------------------------------
+  - target: example_id
+    target_type: INT
+    source: SourceA.id
+
+  # ----------------------------------------------------------
+  # Multiple source fields with transformation
+  # ----------------------------------------------------------
+  - target: full_name
+    target_type: VARCHAR(100)
+    source:
+      - SourceA.first_name
+      - SourceA.last_name
+    transform:
+      type: concat
+      separator: ' '
+
+  # ----------------------------------------------------------
+  # Numeric transformation
+  # ----------------------------------------------------------
+  - target: adjusted_amount
+    target_type: DECIMAL(10,2)
+    source: SourceB.amount
+    transform:
+      type: multiply
+      factor: 1.2
+
+  # ----------------------------------------------------------
+  # Date transformation example
+  # ----------------------------------------------------------
+  - target: created_year
+    target_type: INT
+    source: SourceA.created_date
+    transform:
+      type: year

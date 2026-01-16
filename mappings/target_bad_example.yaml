@@ -1,0 +1,14 @@
+target_table: tgt_bad_example
+
+sources:
+  - name: Customer
+    table: src_customers
+
+fields:
+  - target: full_name
+    target_type: VARCHAR(100)
+    source:
+      - Customer.first_name
+      - Customer.last_name
+    transform:
+      type: unknown_transform

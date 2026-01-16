@@ -1,0 +1,25 @@
+target_table: tgt_customer_summary
+
+sources:
+  - name: Customer
+    table: src_customers
+
+fields:
+  - target: customer_id
+    target_type: INT
+    source: Customer.customer_id
+
+  - target: full_name
+    target_type: VARCHAR(100)
+    source:
+      - Customer.first_name
+      - Customer.last_name
+    transform:
+      type: concat
+      separator: ' '
+
+  - target: signup_year
+    target_type: INT
+    source: Customer.signup_date
+    transform:
+      type: year

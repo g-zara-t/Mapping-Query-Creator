@@ -1,0 +1,24 @@
+target_table: tgt_customer_payments
+
+sources:
+  - name: Customer
+    table: src_customers
+  - name: Payments
+    table: src_payments
+
+joins:
+  - type: left
+    left: Customer
+    right: Payments
+    condition:
+      left_field: customer_id
+      right_field: customer_id
+
+fields:
+  - target: customer_id
+    target_type: INT
+    source: Customer.customer_id
+
+  - target: last_payment_date
+    target_type: DATE
+    source: Payments.payment_date

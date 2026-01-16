@@ -1,0 +1,36 @@
+target_table: tgt_customer_orders
+sources:
+  - name: Customer
+    table: src_customers
+  - name: Orders
+    table: src_orders
+
+joins:
+  - type: inner
+    left: Customer
+    right: Orders
+    condition:
+      left_field: customer_id
+      right_field: customer_id
+
+fields:
+  - target: customer_id
+    target_type: INT
+    source: Customer.customer_id
+  - target: full_name
+    target_type: varchar(100)
+    source:
+      - Customer.first_name
+      - Customer.last_name
+    transform:
+      type: concat
+      separator: ' '
+  - target: order_id
+    target_type: INT
+    source: Orders.order_id
+  - target: order_total
+    target_type: DECIMAL(10,2)
+    source: Orders.total_amt
+    transform:
+      type: multiply
+      factor: 1.2

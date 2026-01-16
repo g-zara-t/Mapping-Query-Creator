@@ -1,0 +1,21 @@
+target_table: tgt_order_financials
+
+sources:
+  - name: Orders
+    table: src_orders
+
+fields:
+  - target: order_id
+    target_type: INT
+    source: Orders.order_id
+
+  - target: gross_amount
+    target_type: DECIMAL(10,2)
+    source: Orders.amount
+
+  - target: net_amount
+    target_type: DECIMAL(10,2)
+    source: Orders.amount
+    transform:
+      type: multiply
+      factor: 0.8
